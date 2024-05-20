@@ -215,3 +215,22 @@ define Device/laird_wb45n
   MKUBIFS_OPTS := -m $$(PAGESIZE) -e 124KiB -c 955
 endef
 TARGET_DEVICES += laird_wb45n
+
+define Device/gardena_smart_gateway_19000
+  $(Device/evaluation-dtb)
+  $(Device/evaluation-zImage)
+  DEVICE_VENDOR := Gardena
+  DEVICE_MODEL := 19000
+  DEVICE_DTS := at91sam9g25-gardena-smart-gateway
+  DEVICE_PACKAGES := kmod-usb-ohci kmod-usb2
+  PAGESIZE := 2048
+  SUBPAGESIZE := 2048
+  UBIFS_LEBSIZE := 126976
+  MAXLEBCNT := 2048
+  FILESYSTEMS := ubifs
+  MKUBIFS_OPTS := -m 2048 -e 126976 -c 2048
+  IMAGES := sysupgrade.bin root.ubi
+  IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
+  IMAGE/root.ubi := append-ubi
+endef
+TARGET_DEVICES += gardena_smart_gateway_19000
