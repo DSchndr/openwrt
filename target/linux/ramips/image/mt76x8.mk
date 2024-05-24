@@ -228,19 +228,17 @@ endef
 TARGET_DEVICES += elecom_wrc-1167fs
 
 define Device/gardena_smart_gateway_mt7688
-  IMAGE_SIZE := 114688k
+  IMAGE_SIZE := 112m
   KERNEL_SIZE := 16384k
   DEVICE_VENDOR := GARDENA
   DEVICE_MODEL := smart Gateway
-  DEVICE_PACKAGES:= uboot-envtools mtd-utils #kmod-ubi kmod-ubifs mtd-utils
+  DEVICE_PACKAGES:= uboot-envtools mtd-utils kmod-ubi kmod-ubifs mtd-utils
   DEVICE_DTS := mt7628an_gardena_smart_gateway_mt7688
   UBINIZE_OPTS := -E 5
   BLOCKSIZE := 128k
   PAGESIZE := 2048
-  #todo: find out why ubifs does not work :'(
-  #FILESYSTEMS += ubifs
   IMAGES += factory.bin
-  IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-rootfs | check-size
+  IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | check-size 
   KERNEL := kernel-bin | gzip | fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
 endef  
 TARGET_DEVICES += gardena_smart_gateway_mt7688 
