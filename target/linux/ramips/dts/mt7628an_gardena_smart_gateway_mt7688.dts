@@ -158,18 +158,17 @@
 		reg = <1>;
 		spi-max-frequency = <40000000>;
 		partitions {
-			compatible = "fixed-partitions";
 			#address-cells = <1>;
 			#size-cells = <1>;
 			
-			partition@0 {
+                        partition@0 {
 				label = "kernel";
 				reg = <0x0 0x1000000>;
 			};
-			partition@1000000 {
-				label = "rootfs";
+                        partition@1000000 {
+				label = "ubi";
 				reg = <0x1000000 0x7000000>;
-			};
+			};  
 		};
 	};
 };
