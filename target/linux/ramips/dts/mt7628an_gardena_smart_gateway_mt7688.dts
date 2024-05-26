@@ -15,6 +15,10 @@
 		     "ralink,mt7628a-soc";
 	model = "GARDENA smart Gateway (MT7688)";
 
+	chosen { 
+		bootargs = "console=ttyS0,115200 ubi.mtd=4 rootfstype=squashfs"; 
+	};
+
 	memory@0 {
 		device_type = "memory";
 		reg = <0x0 0x8000000>;
@@ -162,12 +166,8 @@
 			#size-cells = <1>;
 			
                         partition@0 {
-				label = "kernel";
-				reg = <0x0 0x1000000>;
-			};
-                        partition@1000000 {
 				label = "ubi";
-				reg = <0x1000000 0x7000000>;
+				reg = <0x0 0x7000000>;
 			};  
 		};
 	};
