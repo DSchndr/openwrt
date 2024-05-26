@@ -234,12 +234,16 @@ define Device/gardena_smart_gateway_mt7688
   DEVICE_MODEL := smart Gateway
   DEVICE_PACKAGES:= uboot-envtools mtd-utils kmod-ubi kmod-ubifs mtd-utils
   DEVICE_DTS := mt7628an_gardena_smart_gateway_mt7688
+  KERNEL_IN_UBI := 1
+  TARGET_ROOTFS := squashfs
   UBINIZE_OPTS := -E 5
   BLOCKSIZE := 128k
   PAGESIZE := 2048
-  IMAGES += factory.bin
-  IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | check-size 
-  KERNEL := kernel-bin | gzip | fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
+  IMAGES += factory.bin rootfs.squashfs kernel.bin
+  IMAGE/factory.bin := append-ubi | append-rootfs | check-size
+  IMAGE/rootfs.squashfs := append-rootfs
+  IMAGE/kernel.bin := append-kernel
+  KERNEL := kernel-bin | lzma | fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
 endef  
 TARGET_DEVICES += gardena_smart_gateway_mt7688 
 
